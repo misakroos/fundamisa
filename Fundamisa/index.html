@@ -1,0 +1,1302 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fundamisa | Fundas para iPhone</title>
+  <style>
+    :root {
+      --bg: #050607;
+      --panel: rgba(18, 21, 24, .82);
+      --panel-2: rgba(28, 32, 36, .92);
+      --dark: #121417;
+      --ink: #f5f7fb;
+      --muted: #a8b0bb;
+      --line: rgba(255, 255, 255, .12);
+      --neon: #58d56d;
+      --neon-2: #46c9a8;
+      --cyan: #2f80ed;
+      --pink: #bf5af2;
+      --amber: #ffcc00;
+      --tape: #eff36a;
+      --danger: #ff5266;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .46);
+      --font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-display: "Arial Black", Impact, Haettenschweiler, "Segoe UI Black", sans-serif;
+      --font-editorial: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 4%, rgba(88, 213, 109, .16), transparent 28%),
+        radial-gradient(circle at 86% 10%, rgba(47, 128, 237, .16), transparent 30%),
+        radial-gradient(circle at 45% 88%, rgba(191, 90, 242, .10), transparent 34%),
+        linear-gradient(180deg, #101317 0%, #060708 46%, #030405 100%),
+        var(--bg);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, .035), transparent 28%),
+        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, .08), transparent 36%);
+      opacity: .85;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(5, 6, 7, .82);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav {
+      width: min(1180px, calc(100% - 32px));
+      min-height: 72px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      font-family: var(--font-display);
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--neon);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: var(--neon);
+      background: rgba(255, 255, 255, .04);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, .32);
+      transform: rotate(-2deg);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a,
+    .nav-links button {
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover,
+    .nav-links button:hover {
+      color: var(--ink);
+      border-color: var(--line);
+      background: rgba(168, 255, 59, .08);
+    }
+
+    .btn {
+      min-height: 44px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 12px 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: inherit;
+      font: inherit;
+      font-weight: 850;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--neon), var(--neon-2));
+      color: #061007;
+      box-shadow: 0 18px 32px rgba(88, 213, 109, .18);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #78ec86, #59ddbd);
+    }
+
+    .btn-secondary,
+    .btn-outline {
+      border-color: rgba(255, 255, 255, .16);
+      background: rgba(255, 255, 255, .07);
+      color: var(--ink);
+      backdrop-filter: blur(14px);
+    }
+
+    .btn-dark {
+      background: linear-gradient(135deg, var(--neon), var(--neon-2));
+      color: #061007;
+    }
+
+    .btn[disabled] {
+      cursor: not-allowed;
+      opacity: .48;
+    }
+
+    .cart-button {
+      position: relative;
+      border-color: rgba(255, 255, 255, .16) !important;
+      color: var(--ink) !important;
+      background: rgba(255, 255, 255, .08) !important;
+    }
+
+    .cart-count {
+      min-width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      padding: 0 6px;
+      display: inline-grid;
+      place-items: center;
+      background: var(--neon);
+      color: #061007;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .hero {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 34px;
+      position: relative;
+    }
+
+    .hero-copy {
+      position: absolute;
+      left: clamp(18px, 4vw, 44px);
+      right: clamp(18px, 4vw, 44px);
+      bottom: clamp(18px, 7vw, 72px);
+      z-index: 4;
+      max-width: 760px;
+      padding-top: 160px;
+    }
+
+    .tag {
+      width: fit-content;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 999px;
+      padding: 7px 12px;
+      color: var(--ink);
+      background: rgba(5, 6, 7, .58);
+      backdrop-filter: blur(14px);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-family: var(--font-body);
+    }
+
+    .hero h1 {
+      max-width: 760px;
+      margin: 18px 0 0;
+      font-size: clamp(46px, 8vw, 92px);
+      line-height: .88;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      font-family: var(--font-display);
+    }
+
+    .hero h1 span {
+      color: #ffffff;
+      text-shadow: 0 18px 38px rgba(0, 0, 0, .28);
+    }
+
+    .hero p {
+      max-width: 620px;
+      margin: 22px 0 28px;
+      color: rgba(255, 255, 255, .86);
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .banner-wrap {
+      position: relative;
+      aspect-ratio: 3 / 2;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, .52);
+      border-radius: 18px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(88, 213, 109, .28), transparent 30%),
+        radial-gradient(circle at 12% 72%, rgba(47, 128, 237, .22), transparent 34%),
+        linear-gradient(165deg, #424852, #15181d);
+      box-shadow: 0 30px 80px rgba(18, 20, 23, .2), inset 0 0 0 1px rgba(255, 255, 255, .14);
+    }
+
+    .banner-wrap::before {
+      left: -24px;
+      top: 18px;
+      background: rgba(255, 255, 255, .72);
+    }
+
+    .banner-wrap::after {
+      right: -24px;
+      bottom: 24px;
+      background: rgba(88, 213, 109, .72);
+      transform: rotate(-10deg);
+    }
+
+    .banner-tint {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(18, 20, 23, .02), rgba(18, 20, 23, .08) 34%, rgba(18, 20, 23, .78));
+    }
+
+    .banner-wrap::before,
+    .banner-wrap::after {
+      content: "";
+      position: absolute;
+      z-index: 3;
+      width: 112px;
+      height: 30px;
+      opacity: .92;
+      transform: rotate(-12deg);
+      mix-blend-mode: normal;
+      border-radius: 999px;
+    }
+
+    .banner-media,
+    .banner-placeholder {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .banner-placeholder {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      text-align: center;
+    }
+
+    .banner-placeholder strong {
+      display: block;
+      font-size: clamp(28px, 5vw, 48px);
+      line-height: .95;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    .banner-placeholder span {
+      display: block;
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 20px 0 64px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 34px 0 18px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.15;
+      text-transform: uppercase;
+      font-family: var(--font-display);
+    }
+
+    .section-head p {
+      margin: 8px 0 0;
+      max-width: 600px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .search,
+    .select {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 14px;
+      background: rgba(18, 21, 24, .84);
+      backdrop-filter: blur(14px);
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+
+    .search:focus,
+    .select:focus {
+      border-color: var(--neon);
+      box-shadow: 0 0 0 3px rgba(168, 255, 59, .12);
+    }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 0 14px;
+      scrollbar-width: thin;
+    }
+
+    .chip {
+      flex: 0 0 auto;
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 13px;
+      background: rgba(255, 255, 255, .06);
+      backdrop-filter: blur(10px);
+      color: var(--muted);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .chip.active {
+      border-color: var(--neon);
+      background: var(--neon);
+      color: #061007;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 14px;
+      background: rgba(18, 21, 24, .78);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .28);
+      backdrop-filter: blur(16px);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(168, 255, 59, .12), transparent 28%), radial-gradient(circle at 94% 8%, rgba(255, 63, 212, .14), transparent 26%);
+      opacity: .64;
+    }
+
+    .card-image {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      display: grid;
+      place-items: center;
+      background: #171a1f;
+      overflow: hidden;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .case-placeholder {
+      width: 58%;
+      height: 76%;
+      border: 10px solid rgba(242, 255, 248, .9);
+      border-radius: 30px;
+      position: relative;
+      background: linear-gradient(150deg, #a8ff3b, #111512 45%, #35ff8d);
+      box-shadow: 0 0 42px rgba(168, 255, 59, .18), inset 0 0 0 8px rgba(255, 255, 255, .1);
+    }
+
+    .case-placeholder::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      background: rgba(5, 7, 6, .84);
+    }
+
+    .price-tape {
+      position: absolute;
+      right: 10px;
+      bottom: 12px;
+      z-index: 3;
+      min-width: 104px;
+      padding: 9px 14px;
+      display: inline-flex;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--tape), var(--amber));
+      color: #071007;
+      font-weight: 950;
+      font-size: 18px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, .32);
+      transform: rotate(-4deg);
+      clip-path: polygon(7% 0, 100% 0, 93% 100%, 0 100%);
+    }
+
+    .card-body {
+      position: relative;
+      z-index: 1;
+      padding: 14px;
+    }
+
+    .card h3 {
+      margin: 0 0 7px;
+      font-size: 17px;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .empty {
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      background: rgba(255, 255, 255, .06);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .info-band {
+      margin-top: 42px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 16px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .035)),
+        radial-gradient(circle at 88% 20%, rgba(191, 90, 242, .1), transparent 28%),
+        radial-gradient(circle at 12% 90%, rgba(47, 128, 237, .12), transparent 30%);
+      backdrop-filter: blur(16px);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .info-band strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--neon);
+      text-transform: uppercase;
+      font-family: var(--font-display);
+    }
+
+    .info-band div:nth-child(2) strong { color: var(--pink); }
+    .info-band div:nth-child(3) strong { color: var(--cyan); }
+
+    .info-band span {
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .why-section {
+      margin: 18px 0 20px;
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(280px, .55fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .why-copy,
+    .why-list {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 16px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .035)),
+        radial-gradient(circle at 8% 8%, rgba(88, 213, 109, .12), transparent 28%);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .22);
+    }
+
+    .why-copy {
+      padding: clamp(22px, 4vw, 38px);
+    }
+
+    .why-copy::before {
+      content: "FUNDAMISA";
+      position: absolute;
+      right: -8px;
+      top: 18px;
+      color: rgba(255, 255, 255, .045);
+      font-family: var(--font-display);
+      font-size: clamp(42px, 9vw, 116px);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .editorial-kicker {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .editorial-kicker::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon), var(--cyan));
+    }
+
+    .why-copy h2 {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0;
+      font-family: var(--font-editorial);
+      font-size: clamp(34px, 5vw, 66px);
+      font-weight: 700;
+      line-height: .98;
+      letter-spacing: 0;
+    }
+
+    .why-copy h2 span { color: var(--neon); }
+
+    .why-copy p {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .why-note {
+      position: relative;
+      z-index: 1;
+      max-width: 560px;
+      margin-top: 20px;
+      padding-left: 18px;
+      border-left: 3px solid var(--neon);
+      color: var(--ink);
+      font-family: var(--font-editorial);
+      font-size: 22px;
+      line-height: 1.28;
+    }
+
+    .why-list {
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .why-item {
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 12px;
+      padding: 14px;
+      background: rgba(255, 255, 255, .045);
+    }
+
+    .why-item:nth-child(2) {
+      transform: translateX(10px);
+      border-color: rgba(191, 90, 242, .24);
+    }
+
+    .why-item:nth-child(3) {
+      transform: translateX(-6px);
+      border-color: rgba(47, 128, 237, .24);
+    }
+
+    .why-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--ink);
+      text-transform: uppercase;
+      font-size: 14px;
+      font-family: var(--font-display);
+      letter-spacing: .03em;
+    }
+
+    .why-item span {
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 14px;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 26px 16px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .cart-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: none;
+      background: rgba(0, 0, 0, .64);
+    }
+
+    .cart-backdrop.open { display: block; }
+
+    .cart-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 50;
+      width: min(430px, 100%);
+      height: 100dvh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      background: rgba(18, 21, 24, .96);
+      backdrop-filter: blur(18px);
+      border-left: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      transform: translateX(100%);
+      transition: transform .22s ease;
+    }
+
+    .cart-panel.open { transform: translateX(0); }
+
+    .cart-head,
+    .cart-foot {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .cart-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .cart-head h2 {
+      margin: 0;
+      font-size: 20px;
+      text-transform: uppercase;
+    }
+
+    .icon-button {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, .06);
+      color: var(--ink);
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .cart-list {
+      overflow: auto;
+      padding: 14px 16px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .cart-item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: rgba(255, 255, 255, .06);
+      display: grid;
+      gap: 10px;
+    }
+
+    .cart-item strong { line-height: 1.25; }
+
+    .cart-item-meta {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .qty-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .qty-controls button {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .06);
+      color: var(--ink);
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .cart-foot {
+      border-top: 1px solid var(--line);
+      border-bottom: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .cart-total {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .cart-total span:last-child { color: var(--neon); }
+
+    .cart-empty {
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      padding: 22px;
+      color: var(--muted);
+      text-align: center;
+      background: rgba(255, 255, 255, .05);
+    }
+
+    @media (max-width: 960px) {
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .info-band { grid-template-columns: 1fr; }
+      .why-section { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 0;
+      }
+
+      .nav-links { justify-content: flex-start; }
+      .hero { padding-top: 18px; }
+      .hero-copy {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        padding: 18px 2px 0;
+      }
+      .why-item:nth-child(2),
+      .why-item:nth-child(3) {
+        transform: none;
+      }
+      .toolbar { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .section-head { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (max-width: 440px) {
+      .grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 42px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav" aria-label="Navegacion principal">
+      <a class="brand" href="#inicio">
+        <span class="brand-mark">FM</span>
+        <span>Fundamisa</span>
+      </a>
+      <div class="nav-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#catalogo">Catalogo</a>
+        <a href="#categorias">Modelos</a>
+        <button class="cart-button" id="openCartBtn" type="button">Carrito <span class="cart-count" id="cartCount">0</span></button>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div class="banner-wrap" id="homeBanner"></div>
+    <div class="hero-copy">
+      <div class="tag">Cases con actitud</div>
+      <h1>Fundas para iPhone con <span>actitud</span>.</h1>
+      <p>Elegis modelo, diseño y cantidad. Lo mandas al carrito y cerras el pedido por WhatsApp en segundos.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#catalogo">Ver catalogo</a>
+        <button class="btn btn-secondary" id="heroCartBtn" type="button">Ir al carrito</button>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="why-section" aria-label="Por que elegir Fundamisa">
+      <div class="why-copy">
+        <div class="editorial-kicker">Por que cambiar tu case</div>
+        <h2>La case tambien habla de <span>tu iPhone</span>.</h2>
+        <p>Sabemos que nos gusta personalizar el iPhone hasta donde se pueda. La funda no es solo proteccion: tambien es color, textura, estilo y la primera cosa que se ve cuando lo tenes en la mano. En Fundamisa podes buscar la case ideal para tu modelo y elegir la que va con vos.</p>
+        <div class="why-note">Una funda nueva puede cambiar por completo como se siente tu iPhone, sin cambiar el iPhone.</div>
+      </div>
+      <div class="why-list">
+        <div class="why-item">
+          <strong>Proteccion diaria</strong>
+          <span>Opciones pensadas para cuidar el equipo del uso de todos los dias.</span>
+        </div>
+        <div class="why-item">
+          <strong>Estilo propio</strong>
+          <span>Cambiar la funda es una forma rapida de renovar el look del iPhone.</span>
+        </div>
+        <div class="why-item">
+          <strong>Modelo correcto</strong>
+          <span>Filtra por iPhone y encontra opciones compatibles sin perder tiempo.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="categorias">
+      <div class="section-head">
+        <div>
+          <h2>Modelos</h2>
+          <p>Filtra rapido por el iPhone que necesita el cliente. La vibra cambia, el modelo manda.</p>
+        </div>
+      </div>
+      <div class="chips" id="categoryChips" aria-label="Filtros por modelo"></div>
+    </section>
+
+    <section id="catalogo">
+      <div class="section-head">
+        <div>
+          <h2>Catalogo</h2>
+          <p>Productos cargados desde administracion. Si todavia no hay cambios, se muestran productos de ejemplo.</p>
+        </div>
+      </div>
+      <div class="toolbar">
+        <input class="search" id="searchInput" type="search" placeholder="Buscar por nombre, color o modelo">
+        <select class="select" id="sortSelect" aria-label="Ordenar productos">
+          <option value="featured">Destacados primero</option>
+          <option value="price-low">Menor precio</option>
+          <option value="price-high">Mayor precio</option>
+          <option value="name">Nombre</option>
+        </select>
+      </div>
+      <div class="grid" id="productGrid"></div>
+      <div class="empty" id="emptyState" hidden>No hay productos para este filtro.</div>
+    </section>
+
+    <section class="info-band" aria-label="Beneficios de Fundamisa">
+      <div>
+        <strong>Modelos al toque</strong>
+        <span>Busca tu iPhone, elegi el diseño y arma el pedido sin vueltas.</span>
+      </div>
+      <div>
+        <strong>Fundas con estilo</strong>
+        <span>Transparente, soft, reforzada o con detalle neon para completar el look.</span>
+      </div>
+      <div>
+        <strong>Pedido rapido</strong>
+        <span>Agrega al carrito y consulta disponibilidad final antes de confirmar.</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Fundamisa - Catalogo de fundas para iPhone
+  </footer>
+
+  <div class="cart-backdrop" id="cartBackdrop"></div>
+  <aside class="cart-panel" id="cartPanel" aria-label="Carrito de compra" aria-hidden="true">
+    <div class="cart-head">
+      <h2>Tu carrito</h2>
+      <button class="icon-button" id="closeCartBtn" type="button" aria-label="Cerrar carrito">x</button>
+    </div>
+    <div class="cart-list" id="cartList"></div>
+    <div class="cart-foot">
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cartTotal">$0</span>
+      </div>
+      <button class="btn btn-dark" id="whatsappBtn" type="button">Pedir por WhatsApp</button>
+      <button class="btn btn-outline" id="clearCartBtn" type="button">Vaciar carrito</button>
+    </div>
+  </aside>
+
+  <script>
+    const defaultWhatsAppPhone = "549XXXXXXXXXX";
+    const MODELS = [
+      "iPhone 11", "iPhone 11 Pro", "iPhone 11 Pro Max",
+      "iPhone 12", "iPhone 12 Pro", "iPhone 12 Pro Max",
+      "iPhone 13", "iPhone 13 Pro", "iPhone 13 Pro Max",
+      "iPhone 14", "iPhone 14 Pro", "iPhone 14 Pro Max",
+      "iPhone 15", "iPhone 15 Pro", "iPhone 15 Pro Max",
+      "iPhone 16", "iPhone 16 Pro", "iPhone 16 Pro Max",
+      "iPhone 17", "iPhone 17 Pro", "iPhone 17 Pro Max"
+    ];
+
+    const DEMO_PRODUCTS = [
+      { id: 1, name: "Silicone Soft Negro", model: "iPhone 15 Pro", color: "Negro", price: 12999, stock: 8, featured: true, image: "" },
+      { id: 2, name: "Transparente Reforzada", model: "iPhone 14 Pro Max", color: "Cristal", price: 14999, stock: 4, featured: true, image: "" },
+      { id: 3, name: "MagSafe Arena", model: "iPhone 13", color: "Arena", price: 17999, stock: 6, featured: false, image: "" },
+      { id: 4, name: "Shockproof Verde", model: "iPhone 12 Pro", color: "Verde", price: 15999, stock: 0, featured: false, image: "" },
+      { id: 5, name: "Leather Look Azul", model: "iPhone 16 Pro Max", color: "Azul", price: 19999, stock: 3, featured: true, image: "" },
+      { id: 6, name: "Clear Slim", model: "iPhone 11", color: "Transparente", price: 9999, stock: 12, featured: false, image: "" }
+    ];
+
+    const storageKey = "caseStudioProducts";
+    const cartStorageKey = "caseStudioCart";
+    const phoneStorageKey = "caseStudioWhatsAppPhone";
+    const bannerUrlKey = "caseStudioBannerUrl";
+    const bannerTypeKey = "caseStudioBannerType";
+    const chipsEl = document.querySelector("#categoryChips");
+    const gridEl = document.querySelector("#productGrid");
+    const emptyEl = document.querySelector("#emptyState");
+    const searchEl = document.querySelector("#searchInput");
+    const sortEl = document.querySelector("#sortSelect");
+    const cartPanel = document.querySelector("#cartPanel");
+    const cartBackdrop = document.querySelector("#cartBackdrop");
+    const cartList = document.querySelector("#cartList");
+    const cartCount = document.querySelector("#cartCount");
+    const cartTotal = document.querySelector("#cartTotal");
+    const whatsappBtn = document.querySelector("#whatsappBtn");
+    const clearCartBtn = document.querySelector("#clearCartBtn");
+    const homeBanner = document.querySelector("#homeBanner");
+    let activeModel = "Todos";
+
+    function getProducts() {
+      const saved = localStorage.getItem(storageKey);
+      if (!saved) return DEMO_PRODUCTS;
+      try {
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed) && parsed.length ? parsed : DEMO_PRODUCTS;
+      } catch {
+        return DEMO_PRODUCTS;
+      }
+    }
+
+    function money(value) {
+      return new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(Number(value || 0));
+    }
+
+    function getCart() {
+      const saved = localStorage.getItem(cartStorageKey);
+      if (!saved) return [];
+      try {
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem(cartStorageKey, JSON.stringify(cart));
+    }
+
+    function cartTotals(cart) {
+      return cart.reduce((totals, item) => {
+        totals.qty += Number(item.qty || 0);
+        totals.price += Number(item.price || 0) * Number(item.qty || 0);
+        return totals;
+      }, { qty: 0, price: 0 });
+    }
+
+    function renderBanner() {
+      const url = localStorage.getItem(bannerUrlKey);
+      const type = localStorage.getItem(bannerTypeKey) || "image";
+
+      if (!url) {
+        homeBanner.innerHTML = `
+          <span class="banner-tint" aria-hidden="true"></span>
+          <div class="banner-placeholder">
+            <div>
+              <strong>Drop urbano</strong>
+              <span>Fundas para iPhone con estilo, proteccion y actitud Fundamisa.</span>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      homeBanner.innerHTML = type === "video"
+        ? `<video class="banner-media" src="${url}" autoplay muted loop playsinline></video><span class="banner-tint" aria-hidden="true"></span>`
+        : `<img class="banner-media" src="${url}" alt="Banner principal de Fundamisa"><span class="banner-tint" aria-hidden="true"></span>`;
+    }
+
+    function openCart() {
+      cartPanel.classList.add("open");
+      cartBackdrop.classList.add("open");
+      cartPanel.setAttribute("aria-hidden", "false");
+    }
+
+    function closeCart() {
+      cartPanel.classList.remove("open");
+      cartBackdrop.classList.remove("open");
+      cartPanel.setAttribute("aria-hidden", "true");
+    }
+
+    function renderCart() {
+      const cart = getCart();
+      const totals = cartTotals(cart);
+      cartCount.textContent = totals.qty;
+      cartTotal.textContent = money(totals.price);
+      whatsappBtn.disabled = cart.length === 0;
+      clearCartBtn.disabled = cart.length === 0;
+
+      if (!cart.length) {
+        cartList.innerHTML = `<div class="cart-empty">Todavia no agregaste fundas al carrito.</div>`;
+        return;
+      }
+
+      cartList.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div>
+            <strong>${item.name}</strong>
+            <div class="cart-item-meta">${item.model} - ${item.color || "Sin color"} - ${money(item.price)} c/u</div>
+          </div>
+          <div class="qty-row">
+            <div class="qty-controls">
+              <button type="button" data-dec="${item.id}" aria-label="Restar unidad">-</button>
+              <strong>${item.qty}</strong>
+              <button type="button" data-inc="${item.id}" aria-label="Sumar unidad">+</button>
+            </div>
+            <button class="btn btn-outline" type="button" data-remove="${item.id}">Quitar</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function addToCart(productId) {
+      const product = getProducts().find(item => item.id === productId);
+      if (!product || Number(product.stock) <= 0) return;
+      const cart = getCart();
+      const existing = cart.find(item => item.id === product.id);
+
+      if (existing) {
+        existing.qty = Math.min(Number(product.stock), Number(existing.qty) + 1);
+      } else {
+        cart.push({
+          id: product.id,
+          name: product.name,
+          model: product.model,
+          color: product.color,
+          price: product.price,
+          stock: product.stock,
+          qty: 1
+        });
+      }
+
+      saveCart(cart);
+      renderCart();
+      openCart();
+    }
+
+    function updateQty(productId, direction) {
+      const cart = getCart();
+      const products = getProducts();
+      const next = cart.map(item => {
+        if (item.id !== productId) return item;
+        const product = products.find(productItem => productItem.id === productId);
+        const maxStock = Number(product?.stock || item.stock || 1);
+        return { ...item, qty: Math.max(1, Math.min(maxStock, Number(item.qty) + direction)) };
+      });
+      saveCart(next);
+      renderCart();
+    }
+
+    function removeFromCart(productId) {
+      saveCart(getCart().filter(item => item.id !== productId));
+      renderCart();
+    }
+
+    function checkoutWhatsApp() {
+      const cart = getCart();
+      if (!cart.length) return;
+      const phone = localStorage.getItem(phoneStorageKey) || defaultWhatsAppPhone;
+      if (phone.includes("X")) {
+        alert("Falta configurar el numero de WhatsApp desde el panel de administracion.");
+        return;
+      }
+      const lines = cart.map(item => `- ${item.qty} x ${item.name} para ${item.model}${item.color ? `, color ${item.color}` : ""} (${money(Number(item.price) * Number(item.qty))})`);
+      const total = money(cartTotals(cart).price);
+      const message = `Hola, quiero comprar estas fundas:\n\n${lines.join("\n")}\n\nTotal aproximado: ${total}`;
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, "_blank");
+    }
+
+    function renderChips() {
+      const categories = ["Todos", ...MODELS];
+      chipsEl.innerHTML = categories.map(model => (
+        `<button class="chip ${model === activeModel ? "active" : ""}" type="button" data-model="${model}">${model}</button>`
+      )).join("");
+    }
+
+    function productImage(product) {
+      if (product.image) {
+        return `<img src="${product.image}" alt="${product.name}">`;
+      }
+      return `<div class="case-placeholder" aria-hidden="true"></div>`;
+    }
+
+    function renderProducts() {
+      const term = searchEl.value.trim().toLowerCase();
+      const sort = sortEl.value;
+      let products = getProducts().filter(product => {
+        const text = `${product.name} ${product.model} ${product.color}`.toLowerCase();
+        const matchesText = !term || text.includes(term);
+        const matchesModel = activeModel === "Todos" || product.model === activeModel;
+        return matchesText && matchesModel;
+      });
+
+      products.sort((a, b) => {
+        if (sort === "price-low") return Number(a.price) - Number(b.price);
+        if (sort === "price-high") return Number(b.price) - Number(a.price);
+        if (sort === "name") return a.name.localeCompare(b.name);
+        return Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+      });
+
+      gridEl.innerHTML = products.map(product => `
+        <article class="card">
+          <div class="card-image">
+            ${productImage(product)}
+            <span class="price-tape">${money(product.price)}</span>
+          </div>
+          <div class="card-body">
+            <h3>${product.name}</h3>
+            <div class="meta">
+              <span>${product.model}</span>
+              <span>${product.color || "Sin color"}</span>
+            </div>
+            <div class="meta" style="margin-top: 8px;">
+              <span>${product.featured ? "Destacado" : "Catalogo"}</span>
+              <span>${Number(product.stock) > 0 ? `${product.stock} en stock` : "Agotado"}</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-dark" type="button" data-add-cart="${product.id}" ${Number(product.stock) > 0 ? "" : "disabled"}>${Number(product.stock) > 0 ? "Agregar al carrito" : "Sin stock"}</button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      emptyEl.hidden = products.length > 0;
+    }
+
+    chipsEl.addEventListener("click", event => {
+      const button = event.target.closest("button[data-model]");
+      if (!button) return;
+      activeModel = button.dataset.model;
+      renderChips();
+      renderProducts();
+    });
+
+    gridEl.addEventListener("click", event => {
+      const button = event.target.closest("[data-add-cart]");
+      if (!button) return;
+      addToCart(Number(button.dataset.addCart));
+    });
+
+    cartList.addEventListener("click", event => {
+      const incButton = event.target.closest("[data-inc]");
+      const decButton = event.target.closest("[data-dec]");
+      const removeButton = event.target.closest("[data-remove]");
+      if (incButton) updateQty(Number(incButton.dataset.inc), 1);
+      if (decButton) updateQty(Number(decButton.dataset.dec), -1);
+      if (removeButton) removeFromCart(Number(removeButton.dataset.remove));
+    });
+
+    searchEl.addEventListener("input", renderProducts);
+    sortEl.addEventListener("change", renderProducts);
+    document.querySelector("#openCartBtn").addEventListener("click", openCart);
+    document.querySelector("#heroCartBtn").addEventListener("click", openCart);
+    document.querySelector("#closeCartBtn").addEventListener("click", closeCart);
+    cartBackdrop.addEventListener("click", closeCart);
+    whatsappBtn.addEventListener("click", checkoutWhatsApp);
+    clearCartBtn.addEventListener("click", () => {
+      saveCart([]);
+      renderCart();
+    });
+
+    renderBanner();
+    renderChips();
+    renderProducts();
+    renderCart();
+  </script>
+</body>
+</html>
