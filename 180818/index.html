@@ -1,0 +1,952 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin | Fundamisa</title>
+  <style>
+    :root {
+      --bg: #050706;
+      --ink: #f2fff8;
+      --muted: #9cad9f;
+      --line: rgba(168, 255, 59, .2);
+      --brand: #a8ff3b;
+      --danger: #b42318;
+      --panel: #0d100f;
+      --soft: #151a18;
+      --accent: #35ff8d;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: rgba(13, 16, 15, .96);
+    }
+
+    .nav {
+      width: min(1180px, calc(100% - 32px));
+      min-height: 68px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: inherit;
+      text-decoration: none;
+      font-weight: 850;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--brand);
+      background: transparent;
+      color: var(--brand);
+      font-weight: 900;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 30px 0 60px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.1;
+    }
+
+    .page-head p {
+      max-width: 620px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .btn {
+      min-height: 42px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: inherit;
+      text-decoration: none;
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .btn-primary { background: var(--brand); color: #061007; }
+    .btn-soft { background: var(--soft); border-color: var(--line); }
+    .btn-danger { background: transparent; border-color: rgba(180, 35, 24, .32); color: var(--danger); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 390px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    form {
+      padding: 16px;
+      display: grid;
+      gap: 13px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 12px;
+      background: #080b0a;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .check {
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .check input {
+      width: 18px;
+      min-height: 18px;
+      accent-color: var(--brand);
+    }
+
+    .form-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .settings {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 18px;
+      background: var(--panel);
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(150px, .35fr) auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .settings-help {
+      grid-column: 1 / -1;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: var(--panel);
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 7px;
+      font-size: 25px;
+    }
+
+    .tools {
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: minmax(180px, 1fr) 180px;
+      gap: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+      font-size: 14px;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      background: rgba(168, 255, 59, .08);
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: rgba(168, 255, 59, .13);
+      color: var(--brand);
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .status.out {
+      background: rgba(180, 35, 24, .11);
+      color: var(--danger);
+    }
+
+    .actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .empty {
+      padding: 24px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    [hidden] { display: none !important; }
+
+    .login-panel {
+      width: min(440px, calc(100% - 32px));
+      margin: 42px auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      background: var(--panel);
+    }
+
+    .login-panel h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .login-panel p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .login-error {
+      min-height: 20px;
+      color: var(--danger);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 620px) {
+      .nav, .page-head { align-items: flex-start; flex-direction: column; }
+      .tools, .row, .form-actions, .summary, .settings { grid-template-columns: 1fr; }
+      table { min-width: 760px; }
+      .table-wrap { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav" aria-label="Navegacion de administracion">
+      <a class="brand" href="../index.html">
+        <span class="brand-mark">FM</span>
+        <span>Fundamisa Admin</span>
+      </a>
+      <div class="nav-actions">
+        <a class="btn btn-soft" href="../index.html">Ver web</a>
+        <button class="btn btn-soft" id="logoutBtn" type="button" hidden>Salir</button>
+        <button class="btn btn-soft" id="seedBtn" type="button">Cargar demo</button>
+        <button class="btn btn-danger" id="clearBtn" type="button">Borrar todo</button>
+      </div>
+    </nav>
+  </header>
+
+  <section class="login-panel" id="loginPanel">
+    <h1>Entrar al admin</h1>
+    <p>Inicia sesion con el usuario autorizado de Fundamisa.</p>
+    <form id="loginForm">
+      <label>
+        Email
+        <input id="loginEmail" type="email" autocomplete="email" required>
+      </label>
+      <label>
+        Contrasena
+        <input id="loginPassword" type="password" autocomplete="current-password" required>
+      </label>
+      <button class="btn btn-primary" type="submit">Entrar</button>
+      <div class="login-error" id="loginError"></div>
+    </form>
+  </section>
+
+  <main id="adminApp" hidden>
+    <div class="page-head">
+      <div>
+        <h1>Administrar catalogo</h1>
+        <p>Agrega fundas, asigna el modelo de iPhone, precio, color, stock e imagen. Los cambios se ven en la pagina publica de Fundamisa.</p>
+      </div>
+    </div>
+
+    <section class="settings" aria-label="Configuracion de tienda">
+      <label>
+        WhatsApp para recibir pedidos
+        <input id="phoneInput" type="tel" placeholder="Ej: 5491112345678">
+      </label>
+      <button class="btn btn-primary" id="savePhoneBtn" type="button">Guardar WhatsApp</button>
+      <p class="settings-help">Usa codigo de pais y caracteristica sin espacios, signos ni guiones. Ejemplo Argentina: 549 seguido del numero.</p>
+    </section>
+
+    <section class="settings" aria-label="Banner de inicio">
+      <label>
+        Banner de inicio 3:2
+        <input id="bannerUrlInput" type="url" placeholder="URL de imagen o video corto">
+      </label>
+      <label>
+        Tipo de banner
+        <select id="bannerTypeInput">
+          <option value="image">Imagen</option>
+          <option value="video">Video</option>
+        </select>
+      </label>
+      <button class="btn btn-primary" id="saveBannerBtn" type="button">Guardar banner</button>
+      <p class="settings-help">Para video, conviene usar un clip corto, vertical-horizontal 3:2 o recortable, de 3 a 5 segundos. La web lo reproduce sin sonido y en loop.</p>
+    </section>
+
+    <section class="summary" aria-label="Resumen de catalogo">
+      <div class="metric"><span>Productos</span><strong id="metricProducts">0</strong></div>
+      <div class="metric"><span>Unidades</span><strong id="metricStock">0</strong></div>
+      <div class="metric"><span>Destacados</span><strong id="metricFeatured">0</strong></div>
+      <div class="metric"><span>Modelos activos</span><strong id="metricModels">0</strong></div>
+    </section>
+
+    <div class="layout">
+      <section class="panel">
+        <div class="panel-head">
+          <h2 id="formTitle">Nuevo producto</h2>
+        </div>
+        <form id="productForm">
+          <input id="productId" type="hidden">
+          <label>
+            Nombre
+            <input id="nameInput" type="text" placeholder="Ej: Silicone Soft Negro" required>
+          </label>
+          <label>
+            Modelo
+            <select id="modelInput" required></select>
+          </label>
+          <div class="row">
+            <label>
+              Color
+              <input id="colorInput" type="text" placeholder="Negro">
+            </label>
+            <label>
+              Precio
+              <input id="priceInput" type="number" min="0" step="1" placeholder="12999" required>
+            </label>
+          </div>
+          <div class="row">
+            <label>
+              Stock
+              <input id="stockInput" type="number" min="0" step="1" placeholder="8" required>
+            </label>
+            <label>
+              Imagen URL
+              <input id="imageInput" type="url" placeholder="https://...">
+            </label>
+          </div>
+          <label class="check">
+            <input id="featuredInput" type="checkbox">
+            Destacado
+          </label>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            <button class="btn btn-soft" id="cancelBtn" type="button">Cancelar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Productos cargados</h2>
+        </div>
+        <div class="tools">
+          <input id="searchInput" type="search" placeholder="Buscar producto">
+          <select id="modelFilter">
+            <option value="Todos">Todos los modelos</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Modelo</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="productsBody"></tbody>
+          </table>
+        </div>
+        <div class="empty" id="emptyState" hidden>No hay productos cargados.</div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const MODELS = [
+      "iPhone 11", "iPhone 11 Pro", "iPhone 11 Pro Max",
+      "iPhone 12", "iPhone 12 Pro", "iPhone 12 Pro Max",
+      "iPhone 13", "iPhone 13 Pro", "iPhone 13 Pro Max",
+      "iPhone 14", "iPhone 14 Pro", "iPhone 14 Pro Max",
+      "iPhone 15", "iPhone 15 Pro", "iPhone 15 Pro Max",
+      "iPhone 16", "iPhone 16 Pro", "iPhone 16 Pro Max",
+      "iPhone 17", "iPhone 17 Pro", "iPhone 17 Pro Max"
+    ];
+
+    const DEMO_PRODUCTS = [
+      { id: 1, name: "Silicone Soft Negro", model: "iPhone 15 Pro", color: "Negro", price: 12999, stock: 8, featured: true, image: "" },
+      { id: 2, name: "Transparente Reforzada", model: "iPhone 14 Pro Max", color: "Cristal", price: 14999, stock: 4, featured: true, image: "" },
+      { id: 3, name: "MagSafe Arena", model: "iPhone 13", color: "Arena", price: 17999, stock: 6, featured: false, image: "" }
+    ];
+
+    const storageKey = "caseStudioProducts";
+    const phoneStorageKey = "caseStudioWhatsAppPhone";
+    const bannerUrlKey = "caseStudioBannerUrl";
+    const bannerTypeKey = "caseStudioBannerType";
+    const form = document.querySelector("#productForm");
+    const productId = document.querySelector("#productId");
+    const nameInput = document.querySelector("#nameInput");
+    const modelInput = document.querySelector("#modelInput");
+    const colorInput = document.querySelector("#colorInput");
+    const priceInput = document.querySelector("#priceInput");
+    const stockInput = document.querySelector("#stockInput");
+    const imageInput = document.querySelector("#imageInput");
+    const featuredInput = document.querySelector("#featuredInput");
+    const formTitle = document.querySelector("#formTitle");
+    const productsBody = document.querySelector("#productsBody");
+    const emptyState = document.querySelector("#emptyState");
+    const searchInput = document.querySelector("#searchInput");
+    const modelFilter = document.querySelector("#modelFilter");
+    const phoneInput = document.querySelector("#phoneInput");
+    const bannerUrlInput = document.querySelector("#bannerUrlInput");
+    const bannerTypeInput = document.querySelector("#bannerTypeInput");
+
+    function getProducts() {
+      const saved = localStorage.getItem(storageKey);
+      if (!saved) return [];
+      try {
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveProducts(products) {
+      localStorage.setItem(storageKey, JSON.stringify(products));
+    }
+
+    function money(value) {
+      return new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(Number(value || 0));
+    }
+
+    function fillModelOptions() {
+      const modelOptions = MODELS.map(model => `<option value="${model}">${model}</option>`).join("");
+      modelInput.innerHTML = modelOptions;
+      modelFilter.innerHTML = `<option value="Todos">Todos los modelos</option>${modelOptions}`;
+    }
+
+    function loadPhone() {
+      phoneInput.value = localStorage.getItem(phoneStorageKey) || "";
+    }
+
+    function loadBanner() {
+      bannerUrlInput.value = localStorage.getItem(bannerUrlKey) || "";
+      bannerTypeInput.value = localStorage.getItem(bannerTypeKey) || "image";
+    }
+
+    function savePhone() {
+      const cleanPhone = phoneInput.value.replace(/\D/g, "");
+      phoneInput.value = cleanPhone;
+      if (!cleanPhone) {
+        alert("Escribi tu numero de WhatsApp para recibir pedidos.");
+        return;
+      }
+      localStorage.setItem(phoneStorageKey, cleanPhone);
+      alert("WhatsApp guardado.");
+    }
+
+    function saveBanner() {
+      const bannerUrl = bannerUrlInput.value.trim();
+      if (bannerUrl) {
+        localStorage.setItem(bannerUrlKey, bannerUrl);
+        localStorage.setItem(bannerTypeKey, bannerTypeInput.value);
+      } else {
+        localStorage.removeItem(bannerUrlKey);
+        localStorage.removeItem(bannerTypeKey);
+      }
+      alert("Banner guardado.");
+    }
+
+    function resetForm() {
+      form.reset();
+      productId.value = "";
+      formTitle.textContent = "Nuevo producto";
+      modelInput.value = MODELS[0];
+    }
+
+    function renderMetrics(products) {
+      document.querySelector("#metricProducts").textContent = products.length;
+      document.querySelector("#metricStock").textContent = products.reduce((sum, item) => sum + Number(item.stock || 0), 0);
+      document.querySelector("#metricFeatured").textContent = products.filter(item => item.featured).length;
+      document.querySelector("#metricModels").textContent = new Set(products.map(item => item.model)).size;
+    }
+
+    function renderProducts() {
+      const term = searchInput.value.trim().toLowerCase();
+      const selectedModel = modelFilter.value;
+      const products = getProducts();
+      const filtered = products.filter(product => {
+        const text = `${product.name} ${product.model} ${product.color}`.toLowerCase();
+        return (!term || text.includes(term)) && (selectedModel === "Todos" || product.model === selectedModel);
+      });
+
+      productsBody.innerHTML = filtered.map(product => `
+        <tr>
+          <td>
+            <strong>${product.name}</strong><br>
+            <span style="color: var(--muted);">${product.color || "Sin color"}${product.featured ? " - destacado" : ""}</span>
+          </td>
+          <td>${product.model}</td>
+          <td>${money(product.price)}</td>
+          <td>${product.stock}</td>
+          <td><span class="status ${Number(product.stock) > 0 ? "" : "out"}">${Number(product.stock) > 0 ? "Disponible" : "Agotado"}</span></td>
+          <td>
+            <div class="actions">
+              <button class="btn btn-soft" type="button" data-edit="${product.id}">Editar</button>
+              <button class="btn btn-danger" type="button" data-delete="${product.id}">Borrar</button>
+            </div>
+          </td>
+        </tr>
+      `).join("");
+
+      emptyState.hidden = products.length > 0;
+      renderMetrics(products);
+    }
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      const products = getProducts();
+      const editingId = productId.value ? Number(productId.value) : null;
+      const product = {
+        id: editingId || Date.now(),
+        name: nameInput.value.trim(),
+        model: modelInput.value,
+        color: colorInput.value.trim(),
+        price: Number(priceInput.value),
+        stock: Number(stockInput.value),
+        image: imageInput.value.trim(),
+        featured: featuredInput.checked
+      };
+
+      const nextProducts = editingId
+        ? products.map(item => item.id === editingId ? product : item)
+        : [product, ...products];
+
+      saveProducts(nextProducts);
+      resetForm();
+      renderProducts();
+    });
+
+    productsBody.addEventListener("click", event => {
+      const editButton = event.target.closest("[data-edit]");
+      const deleteButton = event.target.closest("[data-delete]");
+      const products = getProducts();
+
+      if (editButton) {
+        const product = products.find(item => item.id === Number(editButton.dataset.edit));
+        if (!product) return;
+        productId.value = product.id;
+        nameInput.value = product.name;
+        modelInput.value = product.model;
+        colorInput.value = product.color || "";
+        priceInput.value = product.price;
+        stockInput.value = product.stock;
+        imageInput.value = product.image || "";
+        featuredInput.checked = Boolean(product.featured);
+        formTitle.textContent = "Editar producto";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      if (deleteButton) {
+        const product = products.find(item => item.id === Number(deleteButton.dataset.delete));
+        if (!product) return;
+        const confirmed = confirm(`Borrar "${product.name}" del catalogo?`);
+        if (!confirmed) return;
+        saveProducts(products.filter(item => item.id !== product.id));
+        renderProducts();
+      }
+    });
+
+    document.querySelector("#cancelBtn").addEventListener("click", resetForm);
+    document.querySelector("#savePhoneBtn").addEventListener("click", savePhone);
+    document.querySelector("#saveBannerBtn").addEventListener("click", saveBanner);
+    searchInput.addEventListener("input", renderProducts);
+    modelFilter.addEventListener("change", renderProducts);
+
+    document.querySelector("#seedBtn").addEventListener("click", () => {
+      saveProducts(DEMO_PRODUCTS);
+      resetForm();
+      renderProducts();
+    });
+
+    document.querySelector("#clearBtn").addEventListener("click", () => {
+      if (!confirm("Borrar todos los productos del catalogo?")) return;
+      saveProducts([]);
+      resetForm();
+      renderProducts();
+    });
+
+    fillModelOptions();
+    loadPhone();
+    loadBanner();
+    resetForm();
+    renderProducts();
+  </script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+    import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy, query, serverTimestamp, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAxLjnNdkmUBO0PdjTRygdNahFPQv_UScY",
+      authDomain: "fundamisa.firebaseapp.com",
+      projectId: "fundamisa",
+      storageBucket: "fundamisa.firebasestorage.app",
+      messagingSenderId: "887238388770",
+      appId: "1:887238388770:web:9a5f0c592940562e2dee7b",
+      measurementId: "G-2KXWVNWFWQ"
+    };
+
+    const firebaseApp = initializeApp(firebaseConfig);
+    const auth = getAuth(firebaseApp);
+    const db = getFirestore(firebaseApp);
+    const loginPanel = document.querySelector("#loginPanel");
+    const adminApp = document.querySelector("#adminApp");
+    const loginForm = document.querySelector("#loginForm");
+    const loginEmail = document.querySelector("#loginEmail");
+    const loginPassword = document.querySelector("#loginPassword");
+    const loginError = document.querySelector("#loginError");
+    const logoutBtn = document.querySelector("#logoutBtn");
+    const productForm = document.querySelector("#productForm");
+    const productsBodyEl = document.querySelector("#productsBody");
+    const productIdEl = document.querySelector("#productId");
+    const nameInputEl = document.querySelector("#nameInput");
+    const modelInputEl = document.querySelector("#modelInput");
+    const colorInputEl = document.querySelector("#colorInput");
+    const priceInputEl = document.querySelector("#priceInput");
+    const stockInputEl = document.querySelector("#stockInput");
+    const imageInputEl = document.querySelector("#imageInput");
+    const featuredInputEl = document.querySelector("#featuredInput");
+    const formTitleEl = document.querySelector("#formTitle");
+    const phoneInputEl = document.querySelector("#phoneInput");
+    const bannerUrlInputEl = document.querySelector("#bannerUrlInput");
+    const bannerTypeInputEl = document.querySelector("#bannerTypeInput");
+    const searchInputEl = document.querySelector("#searchInput");
+    const modelFilterEl = document.querySelector("#modelFilter");
+    const emptyStateEl = document.querySelector("#emptyState");
+    let firebaseProducts = [];
+
+    function money(value) {
+      return new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(Number(value || 0));
+    }
+
+    function resetFirebaseForm() {
+      productForm.reset();
+      productIdEl.value = "";
+      formTitleEl.textContent = "Nuevo producto";
+    }
+
+    function renderFirebaseMetrics(products) {
+      document.querySelector("#metricProducts").textContent = products.length;
+      document.querySelector("#metricStock").textContent = products.reduce((sum, item) => sum + Number(item.stock || 0), 0);
+      document.querySelector("#metricFeatured").textContent = products.filter(item => item.featured).length;
+      document.querySelector("#metricModels").textContent = new Set(products.map(item => item.model)).size;
+    }
+
+    function renderFirebaseProducts() {
+      const term = searchInputEl.value.trim().toLowerCase();
+      const selectedModel = modelFilterEl.value;
+      const filtered = firebaseProducts.filter(product => {
+        const text = `${product.name} ${product.model} ${product.color}`.toLowerCase();
+        return (!term || text.includes(term)) && (selectedModel === "Todos" || product.model === selectedModel);
+      });
+
+      productsBodyEl.innerHTML = filtered.map(product => `
+        <tr>
+          <td>
+            <strong>${product.name}</strong><br>
+            <span style="color: var(--muted);">${product.color || "Sin color"}${product.featured ? " - destacado" : ""}</span>
+          </td>
+          <td>${product.model}</td>
+          <td>${money(product.price)}</td>
+          <td>${product.stock}</td>
+          <td><span class="status ${Number(product.stock) > 0 ? "" : "out"}">${Number(product.stock) > 0 ? "Disponible" : "Agotado"}</span></td>
+          <td>
+            <div class="actions">
+              <button class="btn btn-soft" type="button" data-firebase-edit="${product.id}">Editar</button>
+              <button class="btn btn-danger" type="button" data-firebase-delete="${product.id}">Borrar</button>
+            </div>
+          </td>
+        </tr>
+      `).join("");
+
+      emptyStateEl.hidden = firebaseProducts.length > 0;
+      renderFirebaseMetrics(firebaseProducts);
+    }
+
+    async function loadFirebaseAdminData() {
+      const configSnapshot = await getDoc(doc(db, "siteConfig", "main"));
+      const config = configSnapshot.exists() ? configSnapshot.data() : {};
+      phoneInputEl.value = config.whatsappPhone || "";
+      bannerUrlInputEl.value = config.bannerUrl || "";
+      bannerTypeInputEl.value = config.bannerType || "image";
+
+      const productsSnapshot = await getDocs(query(collection(db, "products"), orderBy("createdAt", "desc")));
+      firebaseProducts = productsSnapshot.docs.map(productDoc => ({
+        id: productDoc.id,
+        ...productDoc.data()
+      }));
+      renderFirebaseProducts();
+    }
+
+    loginForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      loginError.textContent = "";
+      try {
+        await signInWithEmailAndPassword(auth, loginEmail.value.trim(), loginPassword.value);
+      } catch (error) {
+        loginError.textContent = "No se pudo entrar. Revisa email y contrasena.";
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => signOut(auth));
+
+    onAuthStateChanged(auth, async user => {
+      loginPanel.hidden = Boolean(user);
+      adminApp.hidden = !user;
+      logoutBtn.hidden = !user;
+      document.querySelector("#seedBtn").hidden = !user;
+      document.querySelector("#clearBtn").hidden = !user;
+      if (user) {
+        await loadFirebaseAdminData();
+      }
+    });
+
+    productForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const editingId = productIdEl.value;
+      const product = {
+        name: nameInputEl.value.trim(),
+        model: modelInputEl.value,
+        color: colorInputEl.value.trim(),
+        price: Number(priceInputEl.value),
+        stock: Number(stockInputEl.value),
+        image: imageInputEl.value.trim(),
+        featured: featuredInputEl.checked,
+        updatedAt: serverTimestamp()
+      };
+
+      if (editingId) {
+        await updateDoc(doc(db, "products", editingId), product);
+      } else {
+        await addDoc(collection(db, "products"), {
+          ...product,
+          createdAt: serverTimestamp()
+        });
+      }
+
+      resetFirebaseForm();
+      await loadFirebaseAdminData();
+    }, true);
+
+    productsBodyEl.addEventListener("click", async event => {
+      const editButton = event.target.closest("[data-firebase-edit]");
+      const deleteButton = event.target.closest("[data-firebase-delete]");
+
+      if (editButton) {
+        event.stopImmediatePropagation();
+        const product = firebaseProducts.find(item => item.id === editButton.dataset.firebaseEdit);
+        if (!product) return;
+        productIdEl.value = product.id;
+        nameInputEl.value = product.name || "";
+        modelInputEl.value = product.model || "";
+        colorInputEl.value = product.color || "";
+        priceInputEl.value = product.price || 0;
+        stockInputEl.value = product.stock || 0;
+        imageInputEl.value = product.image || "";
+        featuredInputEl.checked = Boolean(product.featured);
+        formTitleEl.textContent = "Editar producto";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      if (deleteButton) {
+        event.stopImmediatePropagation();
+        const product = firebaseProducts.find(item => item.id === deleteButton.dataset.firebaseDelete);
+        if (!product) return;
+        if (!confirm(`Borrar "${product.name}" del catalogo?`)) return;
+        await deleteDoc(doc(db, "products", product.id));
+        await loadFirebaseAdminData();
+      }
+    }, true);
+
+    document.querySelector("#savePhoneBtn").addEventListener("click", async event => {
+      event.stopImmediatePropagation();
+      const cleanPhone = phoneInputEl.value.replace(/\D/g, "");
+      phoneInputEl.value = cleanPhone;
+      if (!cleanPhone) {
+        alert("Escribi tu numero de WhatsApp para recibir pedidos.");
+        return;
+      }
+      await setDoc(doc(db, "siteConfig", "main"), { whatsappPhone: cleanPhone }, { merge: true });
+      alert("WhatsApp guardado en Firebase.");
+    }, true);
+
+    document.querySelector("#saveBannerBtn").addEventListener("click", async event => {
+      event.stopImmediatePropagation();
+      await setDoc(doc(db, "siteConfig", "main"), {
+        bannerUrl: bannerUrlInputEl.value.trim(),
+        bannerType: bannerTypeInputEl.value
+      }, { merge: true });
+      alert("Banner guardado en Firebase.");
+    }, true);
+
+    document.querySelector("#seedBtn").addEventListener("click", async event => {
+      event.stopImmediatePropagation();
+      for (const product of [
+        { name: "Silicone Soft Negro", model: "iPhone 15 Pro", color: "Negro", price: 12999, stock: 8, featured: true, image: "" },
+        { name: "Transparente Reforzada", model: "iPhone 14 Pro Max", color: "Cristal", price: 14999, stock: 4, featured: true, image: "" },
+        { name: "MagSafe Arena", model: "iPhone 13", color: "Arena", price: 17999, stock: 6, featured: false, image: "" }
+      ]) {
+        await addDoc(collection(db, "products"), { ...product, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+      }
+      await loadFirebaseAdminData();
+    }, true);
+
+    document.querySelector("#clearBtn").addEventListener("click", async event => {
+      event.stopImmediatePropagation();
+      if (!confirm("Borrar todos los productos del catalogo?")) return;
+      await Promise.all(firebaseProducts.map(product => deleteDoc(doc(db, "products", product.id))));
+      await loadFirebaseAdminData();
+    }, true);
+
+    searchInputEl.addEventListener("input", renderFirebaseProducts);
+    modelFilterEl.addEventListener("change", renderFirebaseProducts);
+  </script>
+</body>
+</html>
