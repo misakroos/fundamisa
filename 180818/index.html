@@ -403,6 +403,10 @@
         <input id="bannerUrlInput" type="url" placeholder="URL de imagen o video corto">
       </label>
       <label>
+        Subir banner
+        <input id="bannerFileInput" type="file" accept="image/*,video/*">
+      </label>
+      <label>
         Tipo de banner
         <select id="bannerTypeInput">
           <option value="image">Imagen</option>
@@ -453,6 +457,10 @@
             <label>
               Imagen URL
               <input id="imageInput" type="url" placeholder="https://...">
+            </label>
+            <label>
+              Subir imagen/video
+              <input id="productFileInput" type="file" accept="image/*,video/*">
             </label>
           </div>
           <label class="check">
@@ -721,6 +729,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
     import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, orderBy, query, serverTimestamp, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+    import { getDownloadURL, getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-storage.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAxLjnNdkmUBO0PdjTRygdNahFPQv_UScY",
@@ -735,6 +744,7 @@
     const firebaseApp = initializeApp(firebaseConfig);
     const auth = getAuth(firebaseApp);
     const db = getFirestore(firebaseApp);
+    const storage = getStorage(firebaseApp);
     const loginPanel = document.querySelector("#loginPanel");
     const adminApp = document.querySelector("#adminApp");
     const loginForm = document.querySelector("#loginForm");
@@ -751,10 +761,12 @@
     const priceInputEl = document.querySelector("#priceInput");
     const stockInputEl = document.querySelector("#stockInput");
     const imageInputEl = document.querySelector("#imageInput");
+    const productFileInputEl = document.querySelector("#productFileInput");
     const featuredInputEl = document.querySelector("#featuredInput");
     const formTitleEl = document.querySelector("#formTitle");
     const phoneInputEl = document.querySelector("#phoneInput");
     const bannerUrlInputEl = document.querySelector("#bannerUrlInput");
+    const bannerFileInputEl = document.querySelector("#bannerFileInput");
     const bannerTypeInputEl = document.querySelector("#bannerTypeInput");
     const searchInputEl = document.querySelector("#searchInput");
     const modelFilterEl = document.querySelector("#modelFilter");
@@ -769,6 +781,25 @@
       productForm.reset();
       productIdEl.value = "";
       formTitleEl.textContent = "Nuevo producto";
+    }
+
+    function cleanFileName(fileName) {
+      return fileName.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
+    }
+
+    function mediaTypeFromFile(file) {
+      return file?.type?.startsWith("video/") ? "video" : "image";
+    }
+
+    async function uploadMedia(file, folder) {
+      if (!file) return null;
+      const path = `${folder}/${Date.now()}-${cleanFileName(file.name)}`;
+      const fileRef = ref(storage, path);
+      await uploadBytes(fileRef, file);
+      return {
+        url: await getDownloadURL(fileRef),
+        type: mediaTypeFromFile(file)
+      };
     }
 
     function renderFirebaseMetrics(products) {
@@ -851,6 +882,7 @@
       event.preventDefault();
       event.stopImmediatePropagation();
       const editingId = productIdEl.value;
+      const existingProduct = editingId ? firebaseProducts.find(item => item.id === editingId) : null;
       const product = {
         name: nameInputEl.value.trim(),
         model: modelInputEl.value,
@@ -858,9 +890,15 @@
         price: Number(priceInputEl.value),
         stock: Number(stockInputEl.value),
         image: imageInputEl.value.trim(),
+        mediaType: existingProduct?.mediaType || "image",
         featured: featuredInputEl.checked,
         updatedAt: serverTimestamp()
       };
+      const uploadedProductMedia = await uploadMedia(productFileInputEl.files[0], "products");
+      if (uploadedProductMedia) {
+        product.image = uploadedProductMedia.url;
+        product.mediaType = uploadedProductMedia.type;
+      }
 
       if (editingId) {
         await updateDoc(doc(db, "products", editingId), product);
@@ -890,6 +928,7 @@
         priceInputEl.value = product.price || 0;
         stockInputEl.value = product.stock || 0;
         imageInputEl.value = product.image || "";
+        if (productFileInputEl) productFileInputEl.value = "";
         featuredInputEl.checked = Boolean(product.featured);
         formTitleEl.textContent = "Editar producto";
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -919,10 +958,16 @@
 
     document.querySelector("#saveBannerBtn").addEventListener("click", async event => {
       event.stopImmediatePropagation();
+      const uploadedBanner = await uploadMedia(bannerFileInputEl.files[0], "banners");
+      if (uploadedBanner) {
+        bannerUrlInputEl.value = uploadedBanner.url;
+        bannerTypeInputEl.value = uploadedBanner.type;
+      }
       await setDoc(doc(db, "siteConfig", "main"), {
         bannerUrl: bannerUrlInputEl.value.trim(),
         bannerType: bannerTypeInputEl.value
       }, { merge: true });
+      bannerFileInputEl.value = "";
       alert("Banner guardado en Firebase.");
     }, true);
 
